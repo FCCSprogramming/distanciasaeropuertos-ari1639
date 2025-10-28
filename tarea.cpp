@@ -8,22 +8,36 @@ using namespace std;
 Profe avance la mayor parte del codigo durante la clase, hoy solo le hice ajustes como arreglar la funcion menor_distancia
 y la funcion llenar_matriz, ademas de eso añadi la funcion liberar
 */
+double num_r(double min, double max)
+{
+    int n1 = 0;
+    int n2 = 0;
+    double n = 0;
+
+    do
+    {
+        n1 = rand();
+        n2 = rand();
+        n = n1 / (n2 * 1.0);
+    } while (n < min || n > max);
+
+    return n;
+}
 void llenar_matriz(double **m, int n)
 {
-    srand(time(0));
-    int n1;
+    double na;
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            n1 = rand() % 1501 + 100;
+            na = num_r(100, 1500);
             if (i == j)
             {
                 m[i][j] = 0;
             }
             if (i < j)
             {
-                m[i][j] = n1;
+                m[i][j] = na;
                 m[j][i] = m[i][j];
             }
         }
@@ -35,7 +49,7 @@ void imprimir(double **m, int n)
     {
         for (int j = 0; j < n; j++)
         {
-            cout << right << setw(10) << m[i][j];
+            cout << right << setw(10) << fixed << setprecision(2) << m[i][j];
         }
         cout << endl;
         cout << endl;
@@ -81,16 +95,19 @@ double menor_distancia(double **m, int n, int *menor_i, int *menor_j)
     }
     return menor;
 }
-void liberar(double **matriz, int n)
+void liberar(double **&matriz, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        delete matriz[i];
+        delete[] matriz[i];
         matriz[i] = nullptr;
     }
+    delete[] matriz;
+    matriz = nullptr;
 }
 int main()
 {
+    srand(time(0));
     int n;
     int i;
     int j;
